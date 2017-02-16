@@ -5,14 +5,6 @@ var draw1 = function (height) {
                     var v = edges;
                     var g = new Graph();
                     var i = 0;
-                    var render = function (r, n) {
-                        var set = r.set().push(
-                            r.rect(n.point[0] - 30, n.point[1] - 13, 62, 66).attr({ "fill": "#fa8", "stroke-width": 2, r: "9px" })).push(
-                            r.text(n.point[0], n.point[1] + 20, n.label).attr({ "font-size": "8px" }));
-                        set.items.forEach(function (el) { el.tooltip(r.set().push(r.rect(0, 0, 30, 30).attr({ "fill": "#fec", "stroke-width": 1, r: "9px" }))) });
-                        return set;
-                    }
-
                     while (i < v.length)
                     {
                         if (v[i][0]) g.addNode(v[i][0], { label: v[i][0] });
