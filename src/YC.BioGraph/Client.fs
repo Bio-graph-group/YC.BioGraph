@@ -123,11 +123,14 @@ module Client =
    
    
     let Graph (height, width, g: array<int * int * string * int>, c: int) =
-      Div [
+     let button = Button [Text "Click to show"; Attr.Style "width: 350px; height: 350px"]
+     button.OnClick (fun _ _ -> 
+         JS.Window?draw height width g c
+         button.Remove()) 
+     Div [
          Div [Attr.Id "canvas"; Attr.Height height; Attr.Width width]
-         Input [Attr.Type "button"; Attr.Value "Draw!"]
-             |>! OnClick (fun _ _ -> JS.Window?draw height width g c)
-          ]
+         button
+         ]
 
     let ShowImageControl grOption drawGr = 
      let src =
