@@ -122,16 +122,16 @@ module Client =
    
    
    
-    let Graph (height, width, g: array<int * int * string * int>, c: int) =
-     let button = Button [Text "Draw!"; Attr.Style "width: 350px; height: 350px"]
-     button.OnClick (fun _ _ -> 
-         JS.Window?draw height width g c
-         button.Remove()) 
-     Div [
-         Div [Attr.Id "canvas"; Attr.Height height; Attr.Width width]
-         button
-         ]
-
+    let Graph (height, width, g: array<int * int * string * bool>, c: int) =
+        let button = Button [Text "Draw!"; Attr.Style "width: 350px; height: 350px"]
+        button.OnClick (fun _ _ -> 
+            JS.Window?draw g c
+            button.Remove()) 
+        Div [
+            Div [Attr.Id "canvas"]
+            button
+            ]
+      
     let ShowImageControl grOption drawGr = 
      let src =
            match (grOption, drawGr) with
@@ -142,7 +142,7 @@ module Client =
             let hw = "height: " + fst(getFormSize 355 355) + "; width: " + fst(getFormSize 355 355)
             Img [Attr.Style hw; Attr.Src "defaultImg.svg"])
               | (Some(graphOption), true) -> //to do
-                 let arr: array<int*int*string*int> = Array.zeroCreate (Array.length graphOption.edges) 
+                 let arr: array<int*int*string*bool> = Array.zeroCreate (Array.length graphOption.edges) 
                  for indx = 0 to Array.length graphOption.edges-1 do
                        let f1 nuc =
                           match nuc with
@@ -150,12 +150,10 @@ module Client =
                              |U -> "U"
                              |C -> "C"
                              |G -> "G"  
-                       let f2 bool =
-                             if bool then 1
-                                     else 0
+                       
                        arr.[indx] <-
                            match graphOption.edges.[indx] with
-                             | a, b, c, d -> a,b,f1 c,f2 d
+                             | a, b, c, d -> a,b,f1 c, d
                  wsff.OfElement(fun () ->Graph ((fst(getFormSize 355 355)),(fst(getFormSize 355 355)),arr, graphOption.countOfVertex))
 
 
@@ -216,4 +214,6 @@ module Client =
         
         Div [      
            MainForm
-        ]
+        ] 
+                                         
+   
